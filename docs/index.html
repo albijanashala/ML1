@@ -133,9 +133,11 @@ h1 {
   letter-spacing: -0.022em;
   margin: 0 0 1.1rem;
   max-width: 17ch;
+  text-wrap: balance;
 }
 
 .standfirst {
+  text-wrap: pretty;
   font-size: 1.1875rem;
   line-height: 1.6;
   color: var(--ink-soft);
@@ -253,6 +255,7 @@ section {
 .sec-margin svg { display: block; width: 100%; height: auto; margin-bottom: 0.6rem; }
 
 h2 {
+  text-wrap: balance;
   font-family: var(--sans);
   font-weight: 600;
   font-size: 1.4375rem;
@@ -263,7 +266,7 @@ h2 {
 }
 h3 { font-family: var(--sans); font-weight: 600; font-size: 1.0625rem; line-height: 1.35; margin: 2.1rem 0 0.65rem; }
 
-p { margin: 0 0 1.15rem; }
+p { margin: 0 0 1.15rem; text-wrap: pretty; }
 .sec-body p, .sec-wide > p { max-width: var(--measure); }
 
 a { color: var(--ink); text-decoration-color: var(--ink-faint); text-underline-offset: 0.16em; }
@@ -616,6 +619,10 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
     <h3>Baseline</h3>
     <p>A transparent hand-written rule scoring the same pages on the same label: 60% weight on momentum loss, 25% on inconsistent visibility, 15% on content age. It is readable in one line and needs no training, which is exactly what a model has to beat to justify itself.</p>
 
+    <h3>Why the model stops at a random forest</h3>
+    <p>Gradient boosting was not tested. With twenty-three features and a proxy label, the gain it would plausibly offer sits inside the fold-to-fold spread already measured here &mdash; &plusmn;0.142 on Precision@50 &mdash; so a higher mean would not be distinguishable from which clients happened to land in the test fold.</p>
+    <p>The logistic regression result points the same way. A linear model scoring below a three-signal hand rule says the constraint is the strength of the signal, not the capacity of the model. A stronger learner extracts a little more from the same limited signal; it does not create signal that the feature window never captured.</p>
+
     <h3>Validation design</h3>
     <p>Five-fold cross-validation grouped by client. Every page of a client sits entirely in training or entirely in testing, never split across both.</p>
     <p>This matters because pages from one client share a site, a topic mix and a traffic pattern. A random row split lets a model see some of a client's February pages with their March outcomes and then predict other pages from the same client in the same period &mdash; recognising portfolios rather than learning decline. Section 4 opens with what that is worth.</p>
@@ -860,6 +867,10 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
       <li><b>Model and rule are close.</b> The margin is directional. The hand-written rule remains a reasonable fallback, and losing the model would not be a crisis.</li>
       <li><b>Refresh impact is not established.</b> Showing that refreshing a page recovers traffic would need an experiment with a control group. This is an observational study and cannot provide one.</li>
     </ul>
+
+    <h3>What would change the result</h3>
+    <p>The highest-value change is not a stronger model but a longer feature window. Three months of prior momentum, rather than two halves of one, would give the model the history it currently lacks &mdash; and the misses say exactly why that matters: their median February momentum was 1.182, meaning they were growing right up to the moment the window closed.</p>
+    <p>That is a redesign of the feature window rather than a tuning exercise, and the warehouse supports it: per-client history runs from January 2025 to June 2026. Whether the extra months recover any of those 4,651 pages is an open question this study does not answer.</p>
   </div>
   <aside class="sec-margin">
     <h4>What the queue cannot reach</h4>
@@ -921,9 +932,48 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
 
 <section>
   <div class="sec-no">7</div>
-  <div class="sec-body">
+  <div class="sec-wide">
     <h2 id="repro">Reproducibility</h2>
-    <p>Every number in this paper is produced by a notebook in the repository, and the run that produced each figure is recorded in a metrics file alongside it.</p>
+    <p>Every number in this paper is produced by a notebook in the repository, and the run that produced each figure is recorded in a metrics file alongside it. The paper is the last step of a chain, not a separate exercise.</p>
+
+    <figure>
+      <svg viewBox="0 0 680 368" role="img" aria-label="Vertical timeline of the nine steps, from the research question through to the action playbook.">
+        <line class="rule-line" x1="96" y1="26" x2="96" y2="322" stroke-width="1"/>
+
+        <circle class="dot-empty" cx="96" cy="26" r="5"/>
+        <circle class="dot-empty" cx="96" cy="63" r="5"/>
+        <circle class="dot-empty" cx="96" cy="100" r="5"/>
+        <circle class="dot-empty" cx="96" cy="137" r="5"/>
+        <circle class="dot-full" cx="96" cy="174" r="5"/>
+        <circle class="dot-empty" cx="96" cy="211" r="5"/>
+        <circle class="dot-full" cx="96" cy="248" r="5"/>
+        <circle class="dot-empty" cx="96" cy="285" r="5"/>
+        <circle class="dot-empty" cx="96" cy="322" r="5"/>
+
+        <text class="svg-axis" x="82" y="30" text-anchor="end">step 1</text>
+        <text class="svg-axis" x="82" y="67" text-anchor="end">step 2</text>
+        <text class="svg-axis" x="82" y="104" text-anchor="end">step 3</text>
+        <text class="svg-axis" x="82" y="141" text-anchor="end">step 4</text>
+        <text class="svg-axis" x="82" y="178" text-anchor="end">step 5</text>
+        <text class="svg-axis" x="82" y="215" text-anchor="end">step 6</text>
+        <text class="svg-axis" x="82" y="252" text-anchor="end">step 7</text>
+        <text class="svg-axis" x="82" y="289" text-anchor="end">step 8</text>
+        <text class="svg-axis" x="82" y="326" text-anchor="end">step 9</text>
+
+        <text class="svg-label" x="116" y="30">The research question, and the decision it supports</text>
+        <text class="svg-label" x="116" y="67">Framed as ranking; Precision@50 chosen as the metric</text>
+        <text class="svg-label" x="116" y="104">Data contract: grain, windows, 93,654 eligible pages</text>
+        <text class="svg-label" x="116" y="141">Feature vector and leakage hunt: 23 model-ready columns</text>
+        <text class="svg-label" x="116" y="178">Two signal checks, both MIXED, and the baseline rule</text>
+        <text class="svg-label" x="116" y="215">Model against baseline: 0.836 versus 0.680</text>
+        <text class="svg-label" x="116" y="252">Validation audit: the naive split overstates by 0.109</text>
+        <text class="svg-label" x="116" y="289">Action playbook: five reason codes, priority weighting</text>
+        <text class="svg-label" x="116" y="326">This paper: the eight notebooks assembled and deployed</text>
+
+        <text class="svg-axis" x="116" y="356">Filled markers are the two steps where a check failed and changed the design.</text>
+      </svg>
+      <figcaption>Each notebook produced one piece of what is reported here. Two of them changed the design rather than confirming it: the position column failed inspection at step 5 and was dropped, and the split design was corrected at step 7 after a perfect score exposed it.</figcaption>
+    </figure>
     <ul>
       <li><a href="https://github.com/albijanashala/ML1">Repository</a> &mdash; all notebooks and outputs</li>
       <li><a href="https://github.com/albijanashala/ML1/blob/main/work/notebooks/w03_data_contract.ipynb">Data contract</a> &mdash; grain, windows, availability</li>
