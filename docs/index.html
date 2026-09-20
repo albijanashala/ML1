@@ -89,7 +89,8 @@ body {
   gap: 1.15rem;
   overflow-x: auto;
   scrollbar-width: none;
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
 }
 .topnav::-webkit-scrollbar { display: none; }
 .topnav a {
@@ -215,8 +216,41 @@ section {
   padding-top: 0.55rem;
   text-align: right;
 }
-.sec-body { grid-column: 2; margin-bottom: 3.25rem; }
-.sec-wide { grid-column: 2 / -1; margin-bottom: 3.25rem; }
+.sec-body { grid-column: 2; margin-bottom: 3.25rem; min-width: 0; }
+.sec-wide { grid-column: 2 / -1; margin-bottom: 3.25rem; min-width: 0; }
+
+.sec-margin {
+  grid-column: 3;
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--ink);
+  padding-top: 0.8rem;
+  margin-bottom: 3.25rem;
+  align-self: start;
+}
+.sec-margin h4 {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+  margin: 0 0 0.9rem;
+}
+.sec-margin .stat { margin-bottom: 1.1rem; }
+.sec-margin .stat:last-child { margin-bottom: 0; }
+.sec-margin .big {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+.sec-margin .big.warn { color: var(--decline); }
+.sec-margin .cap { display: block; margin-top: 0.2rem; }
+.sec-margin svg { display: block; width: 100%; height: auto; margin-bottom: 0.6rem; }
 
 h2 {
   font-family: var(--sans);
@@ -364,6 +398,7 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
   padding-top: 0.2rem;
 }
 .recs b { font-family: var(--sans); font-weight: 500; font-size: 1rem; display: block; margin-bottom: 0.2rem; }
+.recs > li > b, .recs > li > p, .recs > li > .code { grid-column: 2; }
 .recs p { margin: 0; }
 .recs .code { font-family: var(--sans); font-size: 0.8125rem; color: var(--ink-soft); margin-top: 0.4rem; display: block; }
 
@@ -374,9 +409,10 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
 .note { font-size: 0.9375rem; color: var(--ink-soft); }
 
 @media (max-width: 52rem) {
-  section { grid-template-columns: 1fr; }
+  section { grid-template-columns: minmax(0, 1fr); }
   .sec-no { text-align: left; padding-top: 0; margin-bottom: 0.3rem; }
-  .sec-body, .sec-wide { grid-column: 1; }
+  .sec-body, .sec-wide, .sec-margin { grid-column: 1; }
+  .sec-margin { margin-bottom: 2.5rem; margin-top: -1.5rem; }
   .hero { padding-top: 2.75rem; }
   .qrow { grid-template-columns: 1.5rem 5rem 1fr 3.5rem; gap: 0.6rem; font-size: 0.8125rem; }
   .mark { display: none; }
@@ -419,15 +455,15 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
         <b>The queue, top eight</b>
         <span>February impressions &middot; change across the month</span>
       </div>
-      <div class="qrow"><span class="q-rank">1</span><span class="q-imp">2,730<small>3 clicks</small></span><span class="q-bar"><i style="width:33.8%"></i></span><span class="q-drop">&minus;66%</span></div>
-      <div class="qrow"><span class="q-rank">2</span><span class="q-imp">23,624<small>9 clicks</small></span><span class="q-bar"><i style="width:21.0%"></i></span><span class="q-drop">&minus;79%</span></div>
-      <div class="qrow"><span class="q-rank">3</span><span class="q-imp">57,886<small>82 clicks</small></span><span class="q-bar"><i style="width:15.4%"></i></span><span class="q-drop">&minus;85%</span></div>
-      <div class="qrow"><span class="q-rank">4</span><span class="q-imp">63,398<small>148 clicks</small></span><span class="q-bar"><i style="width:18.0%"></i></span><span class="q-drop">&minus;82%</span></div>
-      <div class="qrow"><span class="q-rank">5</span><span class="q-imp">37,771<small>19 clicks</small></span><span class="q-bar"><i style="width:4.1%"></i></span><span class="q-drop">&minus;96%</span></div>
-      <div class="qrow"><span class="q-rank">6</span><span class="q-imp">36,484<small>6 clicks</small></span><span class="q-bar"><i style="width:23.8%"></i></span><span class="q-drop">&minus;76%</span></div>
-      <div class="qrow"><span class="q-rank">7</span><span class="q-imp">28,074<small>13 clicks</small></span><span class="q-bar"><i style="width:34.9%"></i></span><span class="q-drop">&minus;65%</span></div>
-      <div class="qrow"><span class="q-rank">8</span><span class="q-imp">16,800<small>17 clicks</small></span><span class="q-bar"><i style="width:38.2%"></i></span><span class="q-drop">&minus;62%</span></div>
-      <p class="queue-foot">Eight real pages from the scored portfolio, ordered by decline risk weighted by the traffic at stake. Bars show second-half February impressions as a share of the first half. Together these eight carry 266,767 impressions; the top fifty carry roughly 699,000.</p>
+      <div class="qrow"><span class="q-rank">1</span><span class="q-imp">2,730<small>3 clicks</small></span><span class="q-bar"><i style="width:66.2%"></i></span><span class="q-drop">&minus;66%</span></div>
+      <div class="qrow"><span class="q-rank">2</span><span class="q-imp">23,624<small>9 clicks</small></span><span class="q-bar"><i style="width:79.0%"></i></span><span class="q-drop">&minus;79%</span></div>
+      <div class="qrow"><span class="q-rank">3</span><span class="q-imp">57,886<small>82 clicks</small></span><span class="q-bar"><i style="width:84.6%"></i></span><span class="q-drop">&minus;85%</span></div>
+      <div class="qrow"><span class="q-rank">4</span><span class="q-imp">63,398<small>148 clicks</small></span><span class="q-bar"><i style="width:82.0%"></i></span><span class="q-drop">&minus;82%</span></div>
+      <div class="qrow"><span class="q-rank">5</span><span class="q-imp">37,771<small>19 clicks</small></span><span class="q-bar"><i style="width:95.9%"></i></span><span class="q-drop">&minus;96%</span></div>
+      <div class="qrow"><span class="q-rank">6</span><span class="q-imp">36,484<small>6 clicks</small></span><span class="q-bar"><i style="width:76.2%"></i></span><span class="q-drop">&minus;76%</span></div>
+      <div class="qrow"><span class="q-rank">7</span><span class="q-imp">28,074<small>13 clicks</small></span><span class="q-bar"><i style="width:65.1%"></i></span><span class="q-drop">&minus;65%</span></div>
+      <div class="qrow"><span class="q-rank">8</span><span class="q-imp">16,800<small>17 clicks</small></span><span class="q-bar"><i style="width:61.8%"></i></span><span class="q-drop">&minus;62%</span></div>
+      <p class="queue-foot">Eight real pages from the scored portfolio, ordered by decline risk weighted by the traffic at stake. Bars show how much of the first half's traffic was lost by the second half, so a longer bar is a steeper fall. Together these eight carry 266,767 impressions; the top fifty carry roughly 699,000.</p>
     </div>
 
     <div class="byline">
@@ -472,6 +508,21 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
     <h3>The decision, stated precisely</h3>
     <p>Given one month of measured search performance for every page in the portfolio, order those pages so that the ones most likely to lose impressions next month &mdash; weighted by how much traffic is at stake &mdash; appear first.</p>
   </div>
+  <aside class="sec-margin">
+    <h4>The decay curve this responds to</h4>
+    <svg viewBox="0 0 200 120" role="img" aria-label="Line showing measured content health peaking around 61 to 90 days and falling past 270 days.">
+      <line class="rule-line" x1="8" y1="104" x2="192" y2="104"/>
+      <polyline class="soft-line" fill="none" stroke-width="1.75"
+        points="8,96 38,60 68,34 98,52 128,44 158,86 188,62"/>
+      <circle class="dot-full" cx="68" cy="34" r="3.5"/>
+      <circle cx="158" cy="86" r="3.5" fill="var(--decline)"/>
+      <text class="svg-axis" x="52" y="26">peak</text>
+      <text class="svg-axis" x="138" y="102">decay</text>
+      <text class="svg-axis" x="8" y="118">0d</text>
+      <text class="svg-axis" x="160" y="118">365d+</text>
+    </svg>
+    <div class="stat"><span class="cap">FlyRank's own portfolio study: measured health peaks at 61&ndash;90 days and falls sharply in the 271&ndash;365 day band. Refreshed pages recover close to new content; untouched ones do not.</span></div>
+  </aside>
 </section>
 
 <section>
@@ -520,6 +571,7 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
     <p>A page is marked declining when its March daily impression rate falls below 80% of its February daily impression rate. February has 28 days and March has 31, so the comparison is made on daily rates; comparing raw totals would make almost every page look like it grew. This gives a base rate of <strong>27.6%</strong>, or 25,887 declining pages.</p>
     <p>This is a proxy for &ldquo;this page needs a reviewer's attention&rdquo;, not a record of whether anyone should have acted. No editorial outcome exists in the data.</p>
 
+
     <h3>Features</h3>
     <p>Twenty-three model-ready columns in four groups, all measurable on 28 February.</p>
     <ul>
@@ -529,6 +581,37 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
       <li><b>Content context.</b> Word count, age, search volume, competition, backlinks, plus content type and intent as encoded categories. Ordinal encoding where the levels have a natural order, one-hot where they do not.</li>
     </ul>
     <p>Missing values are filled with a stated rule rather than dropped, and each fill is paired with a flag where the absence itself carries information. No rows are lost.</p>
+
+    <figure>
+      <svg viewBox="0 0 680 232" role="img" aria-label="Timeline showing February as the feature window split into two halves, a decision moment on 28 February, and March as the outcome window.">
+        <text class="svg-group" x="70" y="30">February 2026</text>
+        <text class="svg-label" x="70" y="48">everything the model may see</text>
+        <text class="svg-group" x="363" y="30">March 2026</text>
+        <text class="svg-label" x="363" y="48">where the outcome is measured</text>
+
+        <rect class="bar-hold" x="70" y="62" width="136" height="46" opacity="0.5"/>
+        <rect class="bar-hold" x="208" y="62" width="137" height="46"/>
+        <rect x="363" y="62" width="287" height="46" fill="none" stroke="var(--decline)" stroke-width="1.5" stroke-dasharray="5 4"/>
+
+        <text class="svg-value" x="138" y="90" text-anchor="middle" fill="var(--paper)">1&ndash;14 Feb</text>
+        <text class="svg-value" x="276" y="90" text-anchor="middle" fill="var(--paper)">15&ndash;28 Feb</text>
+        <text class="svg-value" x="506" y="90" text-anchor="middle" fill="var(--decline)">not observable yet</text>
+
+        <line class="faint-line" x1="354" y1="56" x2="354" y2="120" stroke-dasharray="3 3"/>
+        <text class="svg-axis" x="354" y="134" text-anchor="middle">28 Feb</text>
+
+        <text class="svg-label" x="70" y="158">momentum = second half &divide; first half</text>
+        <text class="svg-axis"  x="70" y="176">both halves sit inside this window</text>
+
+        <text class="svg-label" x="363" y="158">declining when March's daily rate</text>
+        <text class="svg-axis"  x="363" y="176">falls below 80% of February's</text>
+
+        <line class="soft-line" x1="70" y1="204" x2="520" y2="204" marker-end="url(#tip)"/>
+        <defs><marker id="tip" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L8 5L1 9" fill="none" stroke="var(--ink-soft)" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+        <text class="svg-axis" x="70" y="224">23 features measured here, predicting what happens there.</text>
+      </svg>
+      <figcaption>The two windows are separated by the calendar rather than by a cut inside one month, which is what keeps a feature from overlapping the period it is predicting.</figcaption>
+    </figure>
 
     <h3>Baseline</h3>
     <p>A transparent hand-written rule scoring the same pages on the same label: 60% weight on momentum loss, 25% on inconsistent visibility, 15% on content age. It is readable in one line and needs no training, which is exactly what a model has to beat to justify itself.</p>
@@ -548,7 +631,7 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
   <div class="sec-wide">
     <h2 id="results">Results</h2>
 
-    <div class="demo is-honest" id="demo">
+    <div class="demo" id="demo">
       <div class="demo-top">
         <h3>The same model, two ways of testing it</h3>
         <p>One choice separates these numbers: whether a client's pages are allowed to appear in both training and testing. Switch between them.</p>
@@ -654,7 +737,43 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
     <p>Precision@50 rises from 0.680 to 0.836 and ROC AUC from 0.633 to 0.685. The spreads overlap, though: the rule ranges roughly 0.45 to 0.91 across folds and the forest 0.69 to 0.98, so in some client mixes the rule may have matched it. The forest is also the more stable of the two, at &plusmn;0.045 ROC AUC against the rule's &plusmn;0.085, which is a second reason to prefer it beyond the mean. This is a directional preference, not a demonstrated win.</p>
 
     <h3>What the model leans on</h3>
-    <p>Permutation importance, measured as the drop in ROC AUC when a feature is shuffled, puts February momentum first at 0.0525 &mdash; roughly twice impressions per active day at 0.0233, with word count third at 0.0154. The ordering matches the single-feature screen, where momentum also scored highest alone.</p>
+    <p>Permutation importance, measured as the drop in ROC AUC when a feature is shuffled, puts February momentum first by a wide margin.</p>
+
+    <figure>
+      <svg viewBox="0 0 680 268" role="img" aria-label="Horizontal bar chart of permutation importance, led by February momentum at 0.0525.">
+        <line class="rule-line" x1="190" y1="16" x2="190" y2="228"/>
+        <rect class="bar-hold"  x="190" y="20"  width="376" height="18"/>
+        <rect class="bar-muted" x="190" y="46"  width="167" height="18"/>
+        <rect class="bar-muted" x="190" y="72"  width="110" height="18"/>
+        <rect class="bar-muted" x="190" y="98"  width="96"  height="18"/>
+        <rect class="bar-muted" x="190" y="124" width="96"  height="18"/>
+        <rect class="bar-muted" x="190" y="150" width="51"  height="18"/>
+        <rect class="bar-muted" x="190" y="176" width="29"  height="18"/>
+        <rect class="bar-muted" x="190" y="202" width="24"  height="18"/>
+
+        <text class="svg-label" x="182" y="33"  text-anchor="end">February momentum</text>
+        <text class="svg-label" x="182" y="59"  text-anchor="end">impressions per active day</text>
+        <text class="svg-label" x="182" y="85"  text-anchor="end">word count</text>
+        <text class="svg-label" x="182" y="111" text-anchor="end">February impressions</text>
+        <text class="svg-label" x="182" y="137" text-anchor="end">click-through rate</text>
+        <text class="svg-label" x="182" y="163" text-anchor="end">February clicks</text>
+        <text class="svg-label" x="182" y="189" text-anchor="end">content age</text>
+        <text class="svg-label" x="182" y="215" text-anchor="end">days visible</text>
+
+        <text class="svg-value" x="574" y="33">0.0525</text>
+        <text class="svg-value" x="365" y="59">0.0233</text>
+        <text class="svg-value" x="308" y="85">0.0154</text>
+        <text class="svg-value" x="294" y="111">0.0134</text>
+        <text class="svg-value" x="294" y="137">0.0134</text>
+        <text class="svg-value" x="249" y="163">0.0071</text>
+        <text class="svg-value" x="227" y="189">0.0041</text>
+        <text class="svg-value" x="222" y="215">0.0033</text>
+
+        <line class="rule-line" x1="190" y1="232" x2="620" y2="232"/>
+        <text class="svg-axis" x="190" y="252">Drop in ROC AUC when the feature is shuffled</text>
+      </svg>
+      <figcaption>Momentum carries roughly twice the weight of the next feature. The ordering matches the single-feature screen, where momentum also scored highest alone.</figcaption>
+    </figure>
 
     <figure>
       <svg viewBox="0 0 680 300" role="img" aria-label="Column chart of decline rate by content age band: 19.6 percent, then 30.7, then 29.3, falling back to 25.3.">
@@ -742,6 +861,12 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
       <li><b>Refresh impact is not established.</b> Showing that refreshing a page recovers traffic would need an experiment with a control group. This is an observational study and cannot provide one.</li>
     </ul>
   </div>
+  <aside class="sec-margin">
+    <h4>What the queue cannot reach</h4>
+    <div class="stat"><span class="big warn">94%</span><span class="cap">of declining pages are not surfaced. The ranking is reliable at the head of the list only.</span></div>
+    <div class="stat"><span class="big warn">16</span><span class="cap">of February's 54 clients never enter the frame at all.</span></div>
+    <div class="stat"><span class="big warn">1.182</span><span class="cap">median February momentum of the pages it misses &mdash; they were growing when the window closed.</span></div>
+  </aside>
 </section>
 
 <section>
@@ -749,6 +874,33 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
   <div class="sec-wide">
     <h2 id="recommendations">Ranked recommendations</h2>
     <p>The queue orders pages by decline probability weighted by the logarithm of February impressions. Weighting matters: ranking on probability alone put pages with 55 to 600 impressions and no clicks at the top, where the model was right that they would decline but nobody gains from fixing them. Using raw impressions instead would collapse the queue into a volume ranking. The log keeps risk as the driver and lets the size of the loss break ties.</p>
+    <figure>
+      <svg viewBox="0 0 680 236" role="img" aria-label="Horizontal bar chart of the five reason codes across the full queue of 93,654 pages.">
+        <line class="rule-line" x1="200" y1="16" x2="200" y2="196"/>
+        <rect class="bar-muted"   x="200" y="20"  width="410.6" height="22"/>
+        <rect class="bar-muted"   x="200" y="54"  width="326.9" height="22"/>
+        <rect class="bar-decline" x="200" y="88"  width="279.2" height="22"/>
+        <rect class="bar-muted"   x="200" y="122" width="216.8" height="22"/>
+        <rect class="bar-hold"    x="200" y="156" width="77.6"  height="22"/>
+
+        <text class="svg-label" x="192" y="35"  text-anchor="end">Model signal only</text>
+        <text class="svg-label" x="192" y="69"  text-anchor="end">Weak click capture</text>
+        <text class="svg-label" x="192" y="103" text-anchor="end">Momentum loss</text>
+        <text class="svg-label" x="192" y="137" text-anchor="end">Intermittent visibility</text>
+        <text class="svg-label" x="192" y="171" text-anchor="end">Ageing content</text>
+
+        <text class="svg-value" x="619" y="35">29,332</text>
+        <text class="svg-value" x="535" y="69">23,348</text>
+        <text class="svg-value" x="488" y="103">19,946</text>
+        <text class="svg-value" x="425" y="137">15,485</text>
+        <text class="svg-value" x="286" y="171">5,543</text>
+
+        <line class="rule-line" x1="200" y1="200" x2="640" y2="200"/>
+        <text class="svg-axis" x="200" y="220">Pages carrying each reason code, out of 93,654</text>
+      </svg>
+      <figcaption>Momentum loss is highlighted because it dominates the head of the queue: every page in the top twenty carries it. Ageing content is the smallest group, which is why age alone cannot drive a refresh decision.</figcaption>
+    </figure>
+
     <ol class="recs">
       <li><b>Start at the top and stop when the week ends</b>
         <p>The ranking is reliable at the head of the list and thin in the tail. Working the first fifty is the intended use; working the first five thousand is not.</p></li>
