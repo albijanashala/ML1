@@ -487,15 +487,15 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
       <h2 id="abstract">Abstract</h2>
       <dl>
         <dt>Problem</dt>
-        <dd>A content team that can review fifty pages a week has to choose fifty out of tens of thousands, and FlyRank's own portfolio analysis shows why the choice is expensive: content peaks in measured health between 61 and 90 days, falls sharply past 270, and pages refreshed before that drop perform close to new content while untouched ones do not recover on their own.</dd>
+        <dd>A content team that can review fifty pages a week has to choose fifty from tens of thousands, and FlyRank's own portfolio analysis shows that pages left past their peak decay without recovering on their own.</dd>
         <dt>Method</dt>
-        <dd>Features are built from one calendar month of Google Search Console performance and slow-changing content metadata; the label is measured in the month after, so no input can see its own outcome. A Random Forest is compared against a transparent hand-written rule on identical client-grouped folds, and every feature is audited for leakage before any score is reported.</dd>
-        <dt>Dataset</dt>
-        <dd>The pseudonymised FlyRank warehouse release, roughly 79 million rows of daily search performance. After the eligibility gate the study covers 93,654 pages across 38 client portfolios, with February 2026 as the feature window and March 2026 as the outcome window.</dd>
+        <dd>This study ranks 93,654 pages across 38 client portfolios by the probability that their impressions fall in March 2026, using features measured only in February, so no input can see its own outcome.</dd>
+        <dt>Validation</dt>
+        <dd>A random forest is compared with a transparent hand-written rule on identical client-grouped folds, after every feature is audited for leakage.</dd>
         <dt>Result</dt>
-        <dd>Across five folds the model observed a mean Precision@50 of 0.836 against the rule's 0.680, and the queue it produces is reliable at the head: the fifty highest-priority pages carry roughly 699,000 February impressions between them. Under a naive random split the same model reports 1.000 with no variance at all, an overstatement of 0.164 on that metric.</dd>
+        <dd>The model observed a mean Precision@50 of 0.836 against the rule's 0.680, while a naive random split would have reported a perfect 1.000 by letting the model recognise portfolios rather than learn decline.</dd>
         <dt>Conclusion</dt>
-        <dd>The queue is a ranking tool, not an inventory of risk. Measured recall is about 6%, so it finds one declining page in sixteen, and the misses share a profile &mdash; pages that were growing before they turned &mdash; which a single-month feature window cannot detect by construction.</dd>
+        <dd>Recall is about 6%, so the queue is a priority order rather than an inventory of risk, and it misses pages that were still growing when the one-month window closed.</dd>
       </dl>
     </div>
   </div>
@@ -993,8 +993,7 @@ figcaption { font-family: var(--sans); font-size: 0.8125rem; line-height: 1.55; 
 <footer class="colophon">
   <div class="wrap">
     <h2 id="credit" style="font-size:1.0625rem; margin-bottom:0.7rem;">Acknowledgments and data credit</h2>
-    <p>Built on the FlyRank ML Internship dataset, a pseudonymised release of production search performance data. Thanks to the FlyRank team for opening real data to interns and for publishing their own portfolio analysis with its limitations visible &mdash; that standard shaped how this paper reports its own.</p>
-    <p><a href="https://flyrank.ai">flyrank.ai</a></p>
+    <p><a href="https://flyrank.ai">Built on the FlyRank ML Internship dataset</a>, a pseudonymised release of production search performance data. Thanks to the FlyRank team for opening real data to interns and for publishing their own portfolio analysis with its limitations visible &mdash; that standard shaped how this paper reports its own.</p>
     <p style="margin-top:1.75rem;">Albijana Shala &middot; September 2026 &middot; <a href="https://github.com/albijanashala/ML1">github.com/albijanashala/ML1</a></p>
   </div>
 </footer>
